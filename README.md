@@ -1,5 +1,5 @@
-# TBS_X5
-腾讯X5浏览服务Demo
+﻿# 说明文档
+腾讯浏览服务 X5内核Demo
 
 Android手机版本：7.1.1
 AndroidStudio版本：2.1.1
