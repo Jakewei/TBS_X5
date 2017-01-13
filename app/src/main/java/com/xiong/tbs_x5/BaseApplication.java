@@ -1,6 +1,7 @@
 package com.xiong.tbs_x5;
 
 import android.app.Application;
+
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.xiong.tbs_x5.utils.LogUtil;
@@ -28,7 +29,7 @@ public class BaseApplication extends Application {
 
             @Override
             public void onViewInitFinished(boolean arg0) {
-                LogUtil.i("onViewInitFinished is " + arg0);
+                LogUtil.i("View初始化完成:" + arg0);
             }
 
             @Override
@@ -39,17 +40,17 @@ public class BaseApplication extends Application {
         QbSdk.setTbsListener(new TbsListener() {
             @Override
             public void onDownloadFinish(int i) {
-                LogUtil.i("onDownloadFinish");
+                LogUtil.i("腾讯X5内核 下载结束");
             }
 
             @Override
             public void onInstallFinish(int i) {
-                LogUtil.i("onInstallFinish");
+                LogUtil.i("腾讯X5内核 安装完成");
             }
 
             @Override
             public void onDownloadProgress(int i) {
-                LogUtil.i("onDownloadProgress:" + i);
+                LogUtil.i("腾讯X5内核 下载进度:%" + i);
             }
         });
 
