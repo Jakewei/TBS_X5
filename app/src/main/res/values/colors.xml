@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3B9FF8</color>
+    <color name="colorPrimaryDark">#3B9FF8</color>
+    <color name="colorAccent">#4C9AFA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="main">#4C9AFA</color>
+    <color name="enterFalse">#4C9AFA</color>
+    <color name="enterTrue">#3987E6</color>
+    <color name="gray">#F5F5F5</color>
+</resources>
