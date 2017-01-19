@@ -14,11 +14,13 @@ import com.xiong.tbs_x5.utils.LogUtil;
 public class BaseApplication extends Application {
 
     private static BaseApplication instance;
+    private String TAG = "BaseApplication";
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        LogUtil.i(TAG + ".onCreate()");
         instance = this;
         initTbs();
     }
@@ -29,11 +31,12 @@ public class BaseApplication extends Application {
 
             @Override
             public void onViewInitFinished(boolean arg0) {
-                LogUtil.i("View初始化完成:" + arg0);
+                LogUtil.i("View是否初始化完成:" + arg0);
             }
 
             @Override
             public void onCoreInitFinished() {
+                LogUtil.i("X5内核初始化完成");
             }
         };
 

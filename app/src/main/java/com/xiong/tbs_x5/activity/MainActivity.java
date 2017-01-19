@@ -1,121 +1,78 @@
 package com.xiong.tbs_x5.activity;
 
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.GridView;
 import android.widget.TextView;
 
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
 import com.xiong.tbs_x5.R;
+import com.xiong.tbs_x5.adapter.ShortcutAdapter;
+import com.xiong.tbs_x5.model.Shortcut;
 import com.xiong.tbs_x5.utils.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by xiongwenwei@aliyun.com
+ * CreateTime: 2017/1/19
+ * Note:
+ */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private EditText etWebsite;
-    private TextView tvEnter;
-    private ProgressBar progressBar;
-    private com.tencent.smtt.sdk.WebView webView;
-    private String url = "http://3g.qq.com";
+    private EditText etKeyWord;//搜索关键字
+    private TextView tvSearch;//百度一下
+    private GridView gvShortcut;//快捷方式
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         initView();
-        loadUrl(url);
-        openWebsite();
-    }
-
-    private void openWebsite() {
-        etWebsite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etWebsite.setText("");
-            }
-        });
+        initGridView();
     }
 
     private void initView() {
-        etWebsite = (EditText) findViewById(R.id.etWebsite);
-        tvEnter = (TextView) findViewById(R.id.tvEnter);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        webView = (com.tencent.smtt.sdk.WebView) findViewById(R.id.webView);
-        tvEnter.setOnClickListener(this);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-    }
-
-    private void loadUrl(String url) {
-        etWebsite.setText(url);
-        webView.loadUrl(url);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onReceivedError(WebView var1, int var2, String var3, String var4) {
-                progressBar.setVisibility(View.GONE);
-                ToastUtil.show("网页加载失败");
-            }
-        });
-        //进度条
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress == 100) {
-                    etWebsite.setText(webView.getOriginalUrl());
-                    progressBar.setVisibility(View.GONE);
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setProgress(newProgress);
-            }
-        });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (webView != null) webView.destroy();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (webView != null && webView.canGoBack()) {
-                webView.goBack();
-                return true;
-            }
-            return super.onKeyDown(keyCode, event);
-        }
-        return super.onKeyDown(keyCode, event);
+        etKeyWord = (EditText) findViewById(R.id.etKeyWord);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        tvSearch = (TextView) findViewById(R.id.tvSearch);
+        gvShortcut = (GridView) findViewById(R.id.gvShortcut);
+        tvSearch.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvEnter:
-                String url = etWebsite.getText().toString();
-                if (TextUtils.isEmpty(url)) {
-                    ToastUtil.show("请输入网址");
+            case R.id.tvSearch://百度一下
+                String keyWord = etKeyWord.getText().toString();
+                if (TextUtils.isEmpty(keyWord)) {
+                    ToastUtil.show("搜索或输入网址");
                     return;
                 }
-                loadUrl(url);
+                WebActivity.gotoActivity("https://m.baidu.com/s?word=" + keyWord);
+                etKeyWord.setText("");
                 break;
         }
     }
+
+    private void initGridView() {
+        List<Shortcut> shortcuts = new ArrayList<>();
+        int[] resId = {R.drawable.icon_github, R.drawable.icon_qq, R.drawable.icon_qqlive, R.drawable.icon_taimeiti, R.drawable.icon_36kr};
+        String[] name = {"Github", "腾讯网", "腾讯视频", "钛媒体", "网址导航"};
+        String[] url = {"http://github.com", "http://3g.qq.com", "http://m.v.qq.com", "http://m.tmtpost.com", "http://m.site.baidu.com/"};
+        for (int i = 0; i < resId.length; i++) {
+            Shortcut shortcut = new Shortcut();
+            shortcut.setResId(resId[i]);
+            shortcut.setName(name[i]);
+            shortcut.setUrl(url[i]);
+            shortcuts.add(shortcut);
+        }
+        ShortcutAdapter shortcutAdapter = new ShortcutAdapter(this, shortcuts);
+        gvShortcut.setAdapter(shortcutAdapter);
+    }
 }
+

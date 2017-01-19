@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.MainActivity">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:gravity="center"
+        android:text="腾讯X5内核"
+        android:textColor="#FFF"
+        android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/etWebsite"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/common_icon_site"
-            android:drawablePadding="5dp"
-            android:maxLines="1"
-            android:paddingRight="5dp"
-            android:singleLine="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:textColor="#848484"
-            android:textSize="15sp" />
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etKeyWord"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:hint="搜索或输入网址"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tvEnter"
+            android:id="@+id/tvSearch"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@drawable/enter"
+            android:background="@drawable/login_click"
             android:gravity="center"
-            android:text="进入"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:text="百度一下"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 
-    <RelativeLayout
+    <GridView
+        android:id="@+id/gvShortcut"
+        android:layout_marginTop="50dp"
+        android:numColumns="5"
+        android:horizontalSpacing="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"/>
 
-        <com.tencent.smtt.sdk.WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:max="100"
-            android:progress="0" />
-    </RelativeLayout>
 
 </LinearLayout>
